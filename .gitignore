@@ -20,4 +20,8 @@
 # Go workspace file
 go.work
 # json credentials
+strava_refresh_token.json
 stava_refresh_token.json
+# ipynb exploration
+*.ipynb 
+
