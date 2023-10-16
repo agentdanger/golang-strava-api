@@ -19,3 +19,5 @@
 
 # Go workspace file
 go.work
+# json credentials
+stava_refresh_token.json
