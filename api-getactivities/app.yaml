@@ -1,0 +1,17 @@
+# strava api app.yaml file contents:
+runtime: go120
+# api_version: go120
+env: standard
+
+service: getstravaactivities
+
+instance_class: F1
+automatic_scaling:
+  min_instances: 0
+  max_instances: 1
+
+handlers:
+- url: /.*
+  script: _go_app
+# - url: /.*
+#   script: _go_app

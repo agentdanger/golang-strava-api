@@ -10,8 +10,6 @@ import (
 	"net/http"
 	"time"
 
-	_ "github.com/lib/pq"
-
 	"cloud.google.com/go/storage"
 	"github.com/gin-gonic/gin"
 )
