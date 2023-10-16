@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math"
 	"net/http"
 	"time"
 
@@ -137,8 +138,6 @@ type Payload = struct {
 
 func getDataFromGCS(object string) []byte {
 
-	fmt.Println(object)
-
 	ctx := context.Background()
 	client, err := storage.NewClient(ctx)
 	if err != nil {
@@ -162,8 +161,6 @@ func getStravaData(c *gin.Context) {
 	c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 	c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
-
-	fmt.Println("getStravaData")
 
 	var creds Credentials
 
@@ -258,14 +255,17 @@ func getStravaData(c *gin.Context) {
 		finalAct.Miles = miles
 		minutes := float64(a.MovingTime) / 60
 		finalAct.Minutes = minutes
-		hanging_decimal := minutes - float64(int(minutes))
-		seconds := hanging_decimal * 60
+		pace := minutes / miles
+		hanging_decimal := pace - float64(int(pace))
+		seconds := float64(math.Round(hanging_decimal * 60))
+		finalAct.Pace = pace
+		pace_down := float64(int(pace))
 		if seconds < 10 {
-			finalAct.DisplayPace = fmt.Sprintf("%.0f:0%.0f", minutes, seconds)
+			finalAct.DisplayPace = fmt.Sprintf("%.0f:0%.0f", pace_down, seconds)
 		} else {
-			finalAct.DisplayPace = fmt.Sprintf("%.0f:%.0f", minutes, seconds)
+			finalAct.DisplayPace = fmt.Sprintf("%.0f:%.0f", pace_down, seconds)
 		}
-		finalAct.Pace = miles / minutes
+
 		finalActs.Data = append(finalActs.Data, finalAct)
 	}
 
