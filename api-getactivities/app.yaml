@@ -1,6 +1,6 @@
 # strava api app.yaml file contents:
 runtime: go125
-# api_version: go120
+# api_version: go125
 env: standard
 
 service: getstravaactivities
