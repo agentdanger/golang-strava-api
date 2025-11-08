@@ -1,5 +1,5 @@
 # strava api app.yaml file contents:
-runtime: go120
+runtime: go125
 # api_version: go120
 env: standard
 
